@@ -38,22 +38,21 @@
                 <div class="desc">{{app_.desc_override||app_.desc||'no description..'}}</div>
                 <div class="datatypes">
                     <div class="datatype-container">
-                        <div style="text-align: center;">In</div>
+                        <div style="text-align: center;">In ({{ app_.inputs.length }})</div>
                         <div class="datatype">
-                            <div v-for="input in app_.inputs" :key="'input.'+input.id" :class="[input.optional?'input-optional':'']">
+                            <div v-for="input in app_.inputs" class="datatype-tag-container" :key="'input.'+input.id" :class="[input.optional?'input-optional':'']">
                                 <datatypetag :datatype="input.datatype" :tags="input.datatype_tags" :clickable="false"/>
                                 <b v-if="input.multi">multi</b>
                                 <b v-if="input.optional">opt</b>
                             </div>
                         </div>
                     </div>
-                    <div :class="{ 'text-center': app_.outputs.length == 0 }" class="datatype-container">
-                        <div style="text-align: center;">Out</div>
+                    <div class="datatype-container">
+                        <div style="text-align: center;">Out ({{  app_.outputs.length  }})</div>
                         <div style="" class="datatype">
-                            <div v-for="output in app_.outputs" :key="'output.'+output.id">
+                            <div v-for="output in app_.outputs" class="datatype-tag-container" :key="'output.'+output.id">
                                 <datatypetag :datatype="output.datatype" :tags="output.datatype_tags" :clickable="false"/>
                             </div>
-                            <span class="text-warning" v-if="app_.outputs.length == 0">none</span>
                         </div>
                     </div>
                 </div>
@@ -265,8 +264,13 @@ box-shadow: inset -5px -10px 10px white;
     font-size: 78%;
 }
 .datatype-container {
-    width: 45%;
+    width: 49%;
 }
+
+.datatype-tag-container {
+    padding: 5px;
+}
+
 .datatype {
     height: 70px;
     max-height: 70px;
