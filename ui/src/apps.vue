@@ -37,9 +37,11 @@
             <h3 v-if="apps.length == 0" style="opacity: 0.8; margin: 40px;" variant="secondary">No matching Apps</h3>
 
             <div v-if="app_groups['_new']" class="newapps" id="_new" style="position: relative">
-                <h4 class="group-title">New Apps</h4> 
-                <div v-for="app in app_groups['_new']" :key="app._id" class="app">
-                    <app :app="app" height="220px" class="app-card"/>
+                <h4 class="group-title">New Apps</h4>
+                <div class="app-parent">
+                    <div v-for="app in app_groups['_new']" :key="app._id" class="app">
+                        <app :app="app" height="268px" class="app-card"/>
+                    </div>
                 </div>
                 <br clear="both">
                 <small style="padding: 10px; color: white">Showing recently registered Apps that has at least 1 shared resource. Apps that use master branch are hidden.</small>
@@ -47,8 +49,10 @@
 
             <div v-for="tag in sorted_tags" :id="tag" style="position: relative;" :key="tag" :ref="'category-'+tag">
                 <h4 class="group-title">{{tag}} <!--<small style="float: right;">{{app_groups[tag].length}} Apps</small>--> </h4> 
-                <div v-for="app in app_groups[tag]" :key="app._id" class="app">
-                    <app :app="app" height="220px" class="app-card" v-if="visible_category.includes(tag)"/>
+                <div class="app-parent">
+                    <div v-for="app in app_groups[tag]" :key="app._id" class="app">
+                        <app :app="app" height="268px" class="app-card" v-if="visible_category.includes(tag)"/>
+                    </div>
                 </div>
                 <br clear="both">
             </div>
@@ -65,7 +69,7 @@
             <div style="position: relative;" id="_mine" class="myapps" v-if="my_apps && my_apps.length > 0" ref="category-_mine">
                 <h4 class="group-title">My Apps</h4> 
                 <div v-for="app in my_apps" :key="app._id" class="app">
-                    <app :app="app" height="220px" class="app-card" v-if="visible_category.includes('_mine')"/>
+                    <app :app="app" height="268px" class="app-card" v-if="visible_category.includes('_mine')"/>
                 </div>
                 <br clear="both">
                 <br clear="both">
@@ -327,11 +331,16 @@ export default {
     color: white;
     background-color: #1a613d;
 }
+.app-parent {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
 .app {
     margin: 6px;
-    width: 325px;
-    height: 220px;
-    float: left;
+    width: 350px;
+    height: 300px;
     position: relative;
     top: 0;
     transition: box-shadow 0.3s ease;

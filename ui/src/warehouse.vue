@@ -504,9 +504,12 @@ pre {
 */
 
 .github {
-    opacity: 0.7;
+    opacity: 0.5;
+    margin-bottom: 0;
     font-size: 90%;
-    margin-bottom: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 /*perfectscrollbar mod*/

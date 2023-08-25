@@ -1,7 +1,7 @@
 <template>
 <div v-if="app_" class="appcard" :class="{'compact': compact, 'clickable': clickable, 'deprecated': app_.deprecated_by}" @click="click">
     <div v-if="compact">
-        <appavatar :app="app_" style="position: absolute; right: 0;" :width="80" :height="80"/>
+        <appavatar :app="app_" style="position: absolute; right: 0;" :width="40" :height="40"/>
         <span v-if="app_.deprecated_by" class="deprecated-label" style="top: inherit; bottom: 0;">Deprecated</span>
         <div style="max-height: 85px; margin-left: 10px; margin-right: 90px; overflow: hidden;">
             <h4 class="name">
@@ -16,34 +16,49 @@
     </div>
     <div v-else style="overflow: hidden; position: relative;" :style="{ height }">
         <span v-if="app_.deprecated_by" class="deprecated-label">Deprecated</span>
-        <appavatar :app="app_" style="float: right; margin-left: 10px;" :width="80" :height="80"/>
-        <div class="header">
-            <h4 class="name">
-                <span v-if="app_.projects && app_.projects.length > 0" title="Private App" class="text-secondary">
-                    <icon name="lock"/>
-                </span>
-                {{app_.name}}
-            </h4>
-            <h5 class="github">{{app_.github}} <b-badge>{{branch||app_.github_branch}}</b-badge></h5>
-            <div class="datatypes">
-                In
-                <div class="datatype" v-for="input in app_.inputs" :key="'input.'+input.id" :class="[input.optional?'input-optional':'']">
-                    <datatypetag :datatype="input.datatype" :tags="input.datatype_tags" :clickable="false"/>
-                    <b v-if="input.multi">multi</b>
-                    <b v-if="input.optional">opt</b>
+        <div>
+            <div style="display: flex; width: 100%">
+                <div style="width: calc(100% - 40px)">
+                    <h4 class="name">
+                        <span v-if="app_.projects && app_.projects.length > 0" title="Private App" class="text-secondary" style="margin-right: 5px">
+                            <icon name="lock"/>
+                        </span>
+                        {{app_.name}}
+                    </h4>
+                    <h5 class="github">{{app_.github}}</h5>
+                    <div class="github-branch">
+                        <b-badge>{{branch||app_.github_branch}}</b-badge>
+                    </div>
                 </div>
-                <br>
-                <!--<icon scale="0.7" name="arrow-right"/>-->
-                <!--<h5 class="github">{{app_.github}} <b-badge>{{branch||app_.github_branch}}</b-badge></h5>-->
-                <!--<icon scale="0.7" name="arrow-right"/>-->
-                Out
-                <div class="datatype" v-for="output in app_.outputs" :key="'output.'+output.id">
-                    <datatypetag :datatype="output.datatype" :tags="output.datatype_tags" :clickable="false"/>
+                <div>
+                    <appavatar :app="app_" :width="40" :height="40"/>
                 </div>
-                <span style="opacity: 0.7" v-if="app_.outputs.length == 0">(no output)</span>
+            </div>
+            <div>
+                <div class="desc">{{app_.desc_override||app_.desc||'no description..'}}</div>
+                <div class="datatypes">
+                    <div class="datatype-container">
+                        <div style="text-align: center;">In</div>
+                        <div class="datatype">
+                            <div v-for="input in app_.inputs" :key="'input.'+input.id" :class="[input.optional?'input-optional':'']">
+                                <datatypetag :datatype="input.datatype" :tags="input.datatype_tags" :clickable="false"/>
+                                <b v-if="input.multi">multi</b>
+                                <b v-if="input.optional">opt</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div :class="{ 'text-center': app_.outputs.length == 0 }" class="datatype-container">
+                        <div style="text-align: center;">Out</div>
+                        <div style="" class="datatype">
+                            <div v-for="output in app_.outputs" :key="'output.'+output.id">
+                                <datatypetag :datatype="output.datatype" :tags="output.datatype_tags" :clickable="false"/>
+                            </div>
+                            <span class="text-warning" v-if="app_.outputs.length == 0">none</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="desc">{{app_.desc_override||app_.desc||'no description..'}}</div>
         <slot/>
         <div class="stats" v-if="app_.stats">
             <span class="stat" title="Number of time this App was requested">
@@ -153,11 +168,13 @@ export default {
 
 <style scoped>
 .appcard {
-background-color: white;
-min-height: 80px;
-box-shadow: 1px 1px 4px rgba(0,0,0,0.05);
-transition: box-shadow 0.5s;
-position: relative;
+    background-color: white;
+    min-height: 80px;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.05);
+    transition: box-shadow 0.5s;
+    position: relative;
+    padding: 16px;
+    border-radius: 4px;
 }
 
 .appcard.clickable:hover {
@@ -172,24 +189,35 @@ color: #007bff;
 box-shadow: none;
 /*background-color: inherit;*/
 }
-.header {
-margin-right: 7px;
-margin-left: 7px;
-}
 .name {
     color: #444;
     padding: 0px;
     padding-top: 7px;
     margin-bottom: 0px;
     transition: color 0.5s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.github-branch {
+    margin-right: 5px;
+    opacity: 0.4;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .desc {
     opacity: 0.85;
-    margin-top: 0px;
-    padding: 7px;
-    margin-bottom: 32px;
+    margin: 5px 0;
     font-size: 84%;
     color: #444;
+    max-height: 80px;
+    height: 60px;
+    overflow-y: auto;
+    word-break: break-word;
+    background-color: rgb(247, 247, 247);
+    padding: 5px;
+    border-radius: 4px;
 }
 .image {
     width: 100%;
@@ -232,12 +260,18 @@ height: 100%;
 box-shadow: inset -5px -10px 10px white;
 }
 .datatypes {
-font-size: 78%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 78%;
+}
+.datatype-container {
+    width: 45%;
 }
 .datatype {
-display: inline-block;
-margin-right: 2px;
-margin-top: 2px;
+    height: 70px;
+    max-height: 70px;
+    overflow-y: auto;
+    word-break: break-word;
 }
 .input-optional {
 opacity: 0.6;
