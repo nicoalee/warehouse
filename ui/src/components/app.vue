@@ -14,7 +14,7 @@
         </div>
         <slot/>
     </div>
-    <div v-else style="overflow: hidden; position: relative;" :style="{ height }">
+    <div v-else style="overflow: hidden; position: relative; padding: 16px" :style="{ height }">
         <span v-if="app_.deprecated_by" class="deprecated-label">Deprecated</span>
         <div>
             <div style="display: flex; width: 100%">
@@ -38,7 +38,7 @@
                 <div class="desc">{{app_.desc_override||app_.desc||'no description..'}}</div>
                 <div class="datatypes">
                     <div class="datatype-container">
-                        <div style="text-align: center;">In ({{ app_.inputs.length }})</div>
+                        <div>Inputs ({{ app_.inputs.length }})</div>
                         <div class="datatype">
                             <div v-for="input in app_.inputs" class="datatype-tag-container" :key="'input.'+input.id" :class="[input.optional?'input-optional':'']">
                                 <datatypetag :datatype="input.datatype" :tags="input.datatype_tags" :clickable="false"/>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="datatype-container">
-                        <div style="text-align: center;">Out ({{  app_.outputs.length  }})</div>
+                        <div>Outputs ({{  app_.outputs.length  }})</div>
                         <div style="" class="datatype">
                             <div v-for="output in app_.outputs" class="datatype-tag-container" :key="'output.'+output.id">
                                 <datatypetag :datatype="output.datatype" :tags="output.datatype_tags" :clickable="false"/>
@@ -172,7 +172,6 @@ export default {
     box-shadow: 1px 1px 4px rgba(0,0,0,0.05);
     transition: box-shadow 0.5s;
     position: relative;
-    padding: 16px;
     border-radius: 4px;
 }
 

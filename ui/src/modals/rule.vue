@@ -479,15 +479,9 @@ export default {
                 input.edit_extra_tags = (this.rule.extra_datatype_tags[input.id].length > 0);
             });
             this.rule.app.outputs.forEach(output=>{
-                if(!this.rule.output_tags[output.id]) Vue.set(this.rule.output_tags, output.id, [this.compose_output_tag()]);
+                if(!this.rule.output_tags[output.id]) Vue.set(this.rule.output_tags, output.id, [compose_output_tag()]);
                 if(!this.rule.archive[output.id]) Vue.set(this.rule.archive, output.id, {do: output.archive, desc: ""}); 
             });
-        },
-
-        compose_output_tag() {
-            let tag = this.rule.name||new Date().toLocaleDateString();
-            tag = tag.toLowerCase().replace(/\W/g, '_');
-            return tag;
         },
 
         ensure_config_exists() {

@@ -292,7 +292,7 @@ export default {
     top: 50px;
     bottom: 0px;
     width: 240px;
-    background-color: #ddd;
+    background-color: white;
 }
 .group-list h4 {
     font-size: 18px;
