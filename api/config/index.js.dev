@@ -21,7 +21,7 @@ exports.debug = true;
 exports.redis = { url: "redis://brainlife_redis" };
 
 //get it from https://github.com/settings/tokens  
-//exports.github = { access_token: "..." };
+exports.github = { access_token: fs.readFileSync(__dirname+'/github.access_token', 'ascii').trim()};
 
 //admin+client scope oauth2 token used to invite users
 //once you create oauth app, you will need to re-authorize it with admin+client (it gave with just admin scope)
@@ -79,7 +79,7 @@ exports.mail = {
 
     //node mailer config
     mailer: {
-        host: 'mail-relay.iu.edu', //max recipents per email: 30
+        host: 'mail-relay.iu.edu', //max recipients per email: 30
         secure: true, //port 465
         auth: {
             user: 'mememe',
